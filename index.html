@@ -31,10 +31,10 @@
                     </div>
                     <div id="terminal-container">
                         <script>
-                            const 	t = new Terminal(),
+                            const 	terminal  = new Terminal(),
 	 	                            f = new FitAddon.FitAddon();
-                            t.loadAddon(f);
-                            t.open(document.getElementById('terminal-container'));
+                            terminal.loadAddon(f);
+                            terminal.open(document.getElementById('terminal-container'));
                             f.fit();
                             const shell = new XtermJSShell(t)
                             shell
@@ -71,7 +71,7 @@
                             // Start the Read-Eval-Print-Loop
                             shell.repl()
 
-                            t.open(someElement)
+                            terminal.open(someElement)
                         </script>
                     </div>
                     
