@@ -18,6 +18,12 @@
         <video autoplay muted loop id="myVideo">
             <source src="background.mp4" type="video/mp4">
         </video>
+        <!--slow down the video-->
+        <script>
+            var video = document.getElementById("myVideo");
+            video.volume = 0.1;
+            video.playbackRate = 0.2;
+        </script>
         <div class="content">
             <div id="main">
                     <div id="blog">
