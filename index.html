@@ -8,6 +8,10 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@4.5.0/css/xterm.css" />
+        <script src="https://cdn.jsdelivr.net/npm/xterm@4.5.0/lib/xterm.js"></script> 
+        <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.3.0/lib/xterm-addon-fit.js"></script> 
+        <script src="//unpkg.com/xterm-js-shell/bundle.js"></script>
     </head>
     <body>
         <!-- The video -->
@@ -16,7 +20,55 @@
         </video>
         <div class="content">
             <div id="main">
-                <h1>Hi guys , welcome</h1>
+                    <div id="blog">
+                        <h1>Hi guys</h1>
+                    </div>
+                    <div id="terminal-container">
+                        <script>
+                            const 	t = new Terminal(),
+	 	                            f = new FitAddon.FitAddon();
+                            t.loadAddon(f);
+                            t.open(document.getElementById('terminal-container'));
+                            f.fit();
+                            const shell = new XtermJSShell(t)
+                            shell
+                            .command('help', async (shell) => {
+                                await shell.printLine(`
+                            Try running one of these commands:
+                            ${shell.commands.map((command) => ` - ${command}`).join('\n')}
+
+                            `)
+                            })
+                            .command('curl', async (shell, [ url ]) => {
+                                const response = await fetch(url)
+
+                                const text = await response.text()
+
+                                await shell.print(text)
+                            })
+                            .command('echo', async (shell, args) => {
+                                let message = null
+
+                                if (args.length) await shell.printLine(args.join(' '))
+
+                                // Loop until they hit enter without typing anything
+                                while (message = await shell.readLine('')) {
+                                await shell.printLine(message)
+                                }
+                            })
+                            .command('confirm', async (shell) => {
+                                const char = await shell.readChar('Y/n?')
+
+                                await shell.printLine(char)
+                            })
+
+                            // Start the Read-Eval-Print-Loop
+                            shell.repl()
+
+                            t.open(someElement)
+                        </script>
+                    </div>
+                    
 
             </div>
         </div>
