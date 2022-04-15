@@ -14,70 +14,7 @@
         <script src="//unpkg.com/xterm-js-shell/bundle.js"></script>
     </head>
     <body>
-        <!-- The video -->
-        <video autoplay muted loop id="myVideo">
-            <source src="background.mp4" type="video/mp4">
-        </video>
-        <!--slow down the video-->
-        <script>
-            var video = document.getElementById("myVideo");
-            video.volume = 0.1;
-            video.playbackRate = 0.2;
-        </script>
-        <div class="content">
-            <div id="main">
-                    <div id="blog">
-                        <h1>Hi guys</h1>
-                    </div>
-                    <div id="terminal-container">
-                        <script>
-                            const 	t = new Terminal(),
-	 	                            f = new FitAddon.FitAddon();
-                            t.loadAddon(f);
-                            t.open(document.getElementById('terminal-container'));
-                            f.fit();
-                            const shell = new XtermJSShell(t)
-                            shell
-                            .command('help', async (shell) => {
-                                await shell.printLine(`
-                            Try running one of these commands:
-                            ${shell.commands.map((command) => ` - ${command}`).join('\n')}
-
-                            `)
-                            })
-                            .command('curl', async (shell, [ url ]) => {
-                                const response = await fetch(url)
-
-                                const text = await response.text()
-
-                                await shell.print(text)
-                            })
-                            .command('echo', async (shell, args) => {
-                                let message = null
-
-                                if (args.length) await shell.printLine(args.join(' '))
-
-                                // Loop until they hit enter without typing anything
-                                while (message = await shell.readLine('')) {
-                                await shell.printLine(message)
-                                }
-                            })
-                            .command('confirm', async (shell) => {
-                                const char = await shell.readChar('Y/n?')
-
-                                await shell.printLine(char)
-                            })
-
-                            // Start the Read-Eval-Print-Loop
-                            shell.repl()
-
-                            t.open(someElement)
-                        </script>
-                    </div>
-                    
-
-            </div>
-        </div>
+ 
         
     </body>
 </html>
